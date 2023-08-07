@@ -11,10 +11,12 @@ class CryptoRepository(
 ) {
 
     private var coroutineScope = CoroutineScope(Dispatchers.IO)
-    val isActive = false
+    var isActive = false
 
     fun fetchAllCrypto() {
+        if(isActive) return
         coroutineScope.launch {
+            this@CryptoRepository.isActive = true
             for (coin in coinList) {
                 val price = binanceService.getPrice(coin)
                 val percentage = binanceService.getPercentageByDay(coin)
