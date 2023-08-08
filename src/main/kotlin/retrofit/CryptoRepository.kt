@@ -1,10 +1,10 @@
 package retrofit
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import coinList
 import getCloseColumn
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import model.Crypto
 
 class CryptoRepository(
     private val binanceService: BinanceService = RetrofitInstance.binanceService
@@ -13,16 +13,21 @@ class CryptoRepository(
     private var coroutineScope = CoroutineScope(Dispatchers.IO)
     var isActive = false
 
-    fun fetchAllCrypto() {
+
+    fun fetchAllCrypto(currentCryptoList: SnapshotStateList<Crypto>) {
         if(isActive) return
+        currentCryptoList.clear()
+        val tempList = mutableListOf<Deferred<Crypto>>()
         coroutineScope.launch {
             this@CryptoRepository.isActive = true
             for (coin in coinList) {
-                val price = binanceService.getPrice(coin)
-                val percentage = binanceService.getPercentageByDay(coin)
-                val rsi = calculateRSI(binanceService.getRsiCrypto(coin).getCloseColumn())
-                println("$coin: ${price.price}, ${percentage.priceChangePercent}, $rsi")
+                val price = async { binanceService.getPrice(coin) }
+                val percentage = async { binanceService.getPercentageByDay(coin) }
+                val rsi = async { calculateRSI(binanceService.getRsiCrypto(coin).getCloseColumn()) }
+                tempList.add( async { Crypto(coin, price.await().price, percentage.await().priceChangePercent, rsi.await()) })
             }
+            this@CryptoRepository.isActive = false
+            currentCryptoList.addAll(tempList.awaitAll())
         }
     }
 
