@@ -60,7 +60,7 @@ fun createNotification(currentCryptoList: SnapshotStateList<Crypto>) {
     val temp = currentCryptoList.getLongOrShortList()
     val possibleLong = currentCryptoList.getLongCrypto().size
     val possibleShort = currentCryptoList.getShortCrypto().size
-    val text = "Possible Long: ${possibleLong}\nPossible Short: ${possibleShort}"
+    val text = "Possible Long: ${possibleLong}, Possible Short: ${possibleShort}"
     println("$todayDateTime: $text")
     if (temp.size >= 10) {
         Notify.create()
