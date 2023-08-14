@@ -43,7 +43,7 @@ fun App() {
 
     MaterialTheme {
         CryptoUI(progressText = progressText.value) {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.Main).launch {
                 while (true) {
                     progressText.value = NetworkingState.LOADING.message
                     cryptoRepository.fetchAllCrypto(currentCryptoList)

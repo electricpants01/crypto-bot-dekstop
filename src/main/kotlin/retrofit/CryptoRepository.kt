@@ -10,7 +10,7 @@ class CryptoRepository(
     private val binanceService: BinanceService = RetrofitInstance.binanceService
 ) {
 
-    private var coroutineScope = CoroutineScope(Dispatchers.IO)
+    private var coroutineScope = CoroutineScope(Dispatchers.Main)
     var isActive = false
 
 

@@ -2,6 +2,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("jvm")
+
     id("org.jetbrains.compose")
 }
 
@@ -30,6 +31,11 @@ dependencies {
     implementation("org.slf4j:slf4j-api:1.7.30")
     // notification
     implementation("com.dorkbox:Notify:3.7")
+    // coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.5.0")
+
 
 }
 
