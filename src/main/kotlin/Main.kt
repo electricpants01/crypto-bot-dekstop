@@ -1,6 +1,9 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -9,12 +12,11 @@ import data.Notificacion
 import dorkbox.notify.Notify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import model.Crypto
 import retrofit.CryptoRepository
 import ui.CryptoUI
-import java.awt.TrayIcon
 import java.time.Duration
 
 @Composable

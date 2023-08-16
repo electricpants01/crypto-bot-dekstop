@@ -15,7 +15,7 @@ class CryptoRepository(
 
 
     fun fetchAllCrypto(currentCryptoList: SnapshotStateList<Crypto>) {
-        if(isActive) return
+        if (isActive) return
         currentCryptoList.clear()
         val tempList = mutableListOf<Deferred<Crypto>>()
         coroutineScope.launch {
@@ -24,7 +24,14 @@ class CryptoRepository(
                 val price = async { binanceService.getPrice(coin) }
                 val percentage = async { binanceService.getPercentageByDay(coin) }
                 val rsi = async { calculateRSI(binanceService.getRsiCrypto(coin).getCloseColumn()) }
-                tempList.add( async { Crypto(coin, price.await().price, percentage.await().priceChangePercent, rsi.await()) })
+                tempList.add(async {
+                    Crypto(
+                        coin,
+                        price.await().price,
+                        percentage.await().priceChangePercent,
+                        rsi.await()
+                    )
+                })
             }
             this@CryptoRepository.isActive = false
             currentCryptoList.addAll(tempList.awaitAll())

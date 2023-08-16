@@ -30,7 +30,11 @@ class Notificacion {
                     //Si se presiono el boton izquierdo y la aplicacion esta minimizada
                     if (evt.getButton() === MouseEvent.BUTTON1) // && miframe.getExtendedState()==JFrame.ICONIFIED )
                     {
-                        MensajeTrayIcon("hola chris","Por favor verifique la información", TrayIcon.MessageType.WARNING)
+                        MensajeTrayIcon(
+                            "hola chris",
+                            "Por favor verifique la información",
+                            TrayIcon.MessageType.WARNING
+                        )
                     }
                 }
 
